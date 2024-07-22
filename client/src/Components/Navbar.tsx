@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import { SiHubspot } from "react-icons/si";
 import { IoCalendarOutline } from "react-icons/io5";
-import { MdOutlineEventAvailable } from "react-icons/md";
-import { MdOutlineExplore } from "react-icons/md";
-import { MdOutlineLeaderboard } from "react-icons/md";
-import { RiCommunityLine } from "react-icons/ri";
-import { RiNotificationLine } from "react-icons/ri";
-import { MdOutlinePersonOutline } from "react-icons/md";
-import '../Styles/Navbar.css'
+import { MdOutlineEventAvailable, MdOutlineExplore, MdOutlineLeaderboard, MdOutlinePersonOutline } from "react-icons/md";
+import { RiCommunityLine, RiNotificationLine } from "react-icons/ri";
+import '../Styles/Navbar.css';
+import { getLocation } from "../Services/GeoLocation";
 export default function Navbar() {
+    
     const logIn=false;
+    const [location, setLocation] = useState({ state: '', country: '' });
+
+    useEffect(() => {
+        const fetchLocation = async () => {
+            const loc = await getLocation();
+            if (loc) {
+                setLocation({ state: loc.region, country: loc.country_name });
+            }
+        };
+        fetchLocation();
+    }, []);
+
     return (
         <div className="navbar-head">
             <div className="nav-left">
@@ -39,9 +49,14 @@ export default function Navbar() {
                             </div>
                         </>
                     ):(
-                        <div className="user-profile">
-                            <MdOutlinePersonOutline  size={30}/>
-                        </div>
+                        <>
+                            <div className="location">
+                                {location.state}, {location.country}
+                            </div>
+                            <div className="user-profile">
+                                <MdOutlinePersonOutline  size={30}/>
+                            </div>
+                        </>
                     )
                 }
             </div>
