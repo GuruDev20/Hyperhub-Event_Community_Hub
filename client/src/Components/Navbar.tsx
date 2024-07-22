@@ -5,6 +5,7 @@ import { MdOutlineEventAvailable, MdOutlineExplore, MdOutlineLeaderboard, MdOutl
 import { RiCommunityLine, RiNotificationLine } from "react-icons/ri";
 import '../Styles/Navbar.css';
 import { getLocation } from "../Services/GeoLocation";
+import {Link} from 'react-router-dom'
 export default function Navbar() {
     
     const logIn=false;
@@ -22,12 +23,14 @@ export default function Navbar() {
 
     return (
         <div className="navbar-head">
-            <div className="nav-left">
-                <SiHubspot size={34} className='logo'/>
-                <p className='logo-name'>Hyperhub</p>
-            </div>
+            <Link to='/' className='link'>
+                <div className="nav-left">
+                    <SiHubspot size={34} className='logo'/>
+                    <p className='logo-name'>Hyperhub</p>
+                </div>
+            </Link>
             <div className="nav-middle">
-                <div className="event">Events<MdOutlineEventAvailable size={24} className='nav-logo'/></div>
+                <Link to='/events' className='link'><div className="event">Events<MdOutlineEventAvailable size={24} className='nav-logo'/></div></Link>
                 <div className="explore">Explore<MdOutlineExplore size={24} className='nav-logo'/></div>
                 <div className="my-event">Calender<IoCalendarOutline size={24} className='nav-logo'/></div>
                 <div className="leaderboard">Leaderboard<MdOutlineLeaderboard size={24} className='nav-logo'/></div>
@@ -42,10 +45,10 @@ export default function Navbar() {
                     logIn?(
                         <>
                             <div className="nav-right-login">
-                                <button className="login">Login</button>
+                                <Link to='/login'><button className="login">Login</button></Link>
                             </div>
                             <div className="nav-right-register">
-                                <button className="register">Register</button>
+                                <Link to='/register'><button className="register">Register</button></Link>
                             </div>
                         </>
                     ):(

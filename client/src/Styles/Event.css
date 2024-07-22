@@ -1,0 +1,61 @@
+.event-container{
+    background-color: #fbfefb;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+.event-classify{
+    padding: 1em;
+    margin-top: 0.5em;
+    background-color: #f5f7f6; 
+    margin-left: 4.5em;
+}
+.event-title{
+    font-size: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding-left: 1em;
+}
+.event-filter-result{
+    margin-left: 1em;
+    margin-top: 0.5em;
+    margin-right: 4.5em;
+    background-color: #f5f7f6; 
+}
+.event-type,.event-date,.event-location,.event-price,.event-popular,.event-age{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #efe5dc;
+    margin: 0.5em;
+    color: #3d405b;
+    border-radius: 5px;
+}
+.type,.date,.locations,.price,.popular,.age{
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 1em;
+}
+.drop-arrow{
+    margin-right: 1em;
+}
+
+.dropdown-content{
+    background-color: white;
+    margin: 0.5em;
+    padding: 1em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+.drop-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.divider{
+    height: 1px;
+    background-color: rgb(209, 207, 207);
+    margin: 0;
+}
