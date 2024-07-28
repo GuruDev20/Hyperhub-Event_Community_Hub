@@ -1,0 +1,117 @@
+.calender-content{
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    margin-top: 1em;
+}
+.cal-mid{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 1px solid #eae4e9;
+    border-radius: 5px;
+    margin-left: 1em;
+    margin-top: 1em;
+}
+.cal-top{
+    width: 90%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 1em;
+    margin-top: 1em;
+    padding: 1em;
+}
+.cal-top-left,.cal-top-right{
+    display: flex;
+    flex-direction: column;
+    font-size: 17px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #eae4e9;
+}
+.cal-title{
+    padding-left: 3em;
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.cal-calender {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none; 
+}
+
+.react-calendar {
+    width: 80%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+.react-calendar__tile {
+    padding: 1em;
+    color: #000;
+}
+
+.react-calendar__tile--active {
+    background-color: #fb6f92;
+    color: #fff;
+    border-radius: 45%;
+}
+.cal-bottom{
+    display: flex;
+    flex-direction: row;
+    margin-left: 2em;
+    margin-right: 3em;
+    margin-top: 0.6em;
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 5px;
+    border: 1px solid #eae4e9;
+    margin-bottom: 1em;
+}
+.cal-list-events{
+    padding-left: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.cal-top-right{
+    padding: 2em;
+}
+.cal-filter-event-list{
+    /* padding-top: 1em; */
+    margin-top: 2em;
+}
+.cal-event{
+    padding: 0.3em;
+    margin-bottom: 1em;
+}
+.divider-cal{
+    height: 1px;
+    background-color: rgb(209, 207, 207);
+    margin-top: 0.4em;
+}
+.cal-categorize{
+    padding-left: 0.2em;
+}
+.cal-scrollable {
+    max-height: 300px;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+.cal-scrollable::-webkit-scrollbar {
+    display: none;
+}
+
+.cal-scrollable::-webkit-scrollbar-track {
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.cal-scrollable::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}

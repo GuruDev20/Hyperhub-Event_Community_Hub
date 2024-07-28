@@ -5,6 +5,7 @@ import NotFound from '../Pages/NotFound'
 import Welcome from '../Pages/Welcome'
 import Events from '../Pages/Events'
 import Explore from '../Pages/Explore'
+import Calender from '../Pages/Calender'
 export default function App() {
     return (
         <Routes>
@@ -14,6 +15,7 @@ export default function App() {
             <Route path='/notfound' element={<NotFound/>}/>
             <Route path='/events' element={<Events/>}/>
             <Route path='/explore' element={<Explore/>}/>
+            <Route path='/calender' element={<Calender/>}/>
         </Routes>
     )
 }
