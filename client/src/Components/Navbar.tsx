@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { SiHubspot } from "react-icons/si";
 import { IoCalendarOutline } from "react-icons/io5";
 import { MdOutlineEventAvailable, MdOutlineExplore, MdOutlineLeaderboard, MdOutlinePersonOutline } from "react-icons/md";
@@ -31,7 +31,7 @@ export default function Navbar() {
             </Link>
             <div className="nav-middle">
                 <Link to='/events' className='link'><div className="event">Events<MdOutlineEventAvailable size={24} className='nav-logo'/></div></Link>
-                <div className="explore">Explore<MdOutlineExplore size={24} className='nav-logo'/></div>
+                <Link to='/explore' className='link'><div className="explore">Explore<MdOutlineExplore size={24} className='nav-logo'/></div></Link>
                 <div className="my-event">Calender<IoCalendarOutline size={24} className='nav-logo'/></div>
                 <div className="leaderboard">Leaderboard<MdOutlineLeaderboard size={24} className='nav-logo'/></div>
                 <div className="community">Community<RiCommunityLine size={24} className='nav-logo'/></div>
@@ -54,7 +54,7 @@ export default function Navbar() {
                     ):(
                         <>
                             <div className="location">
-                                {location.state}, {location.country}
+                                {location.state},{location.country}
                             </div>
                             <div className="user-profile">
                                 <MdOutlinePersonOutline  size={30}/>
