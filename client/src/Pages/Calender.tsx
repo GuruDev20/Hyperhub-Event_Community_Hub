@@ -6,8 +6,46 @@ import Navbar from '../Components/Navbar';
 import '../Styles/EventCalender.css';
 
 export default function Calender() {
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState<Date | null>(new Date());
     const events = [
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
+        { title: "Event 1", date: new Date() },
         { title: "Event 1", date: new Date() },
         { title: "Event 2", date: new Date(new Date().setDate(new Date().getDate() - 1)) },
         { title: "Event 3", date: new Date(new Date().setDate(new Date().getDate() + 1)) },
@@ -31,7 +69,7 @@ export default function Calender() {
     const filteredEvents = events.filter(event => {
         const eventDate = new Date(event.date);
         eventDate.setHours(0, 0, 0, 0);
-        return eventDate.getTime() === new Date(date).getTime();
+        return date && eventDate.getTime() === new Date(date).getTime();
     });
 
     return (
@@ -44,11 +82,11 @@ export default function Calender() {
                         <div className="cal-top-left">
                             <p className="cal-title">Your Calendar</p>
                             <div className="cal-calender">
-                                <Calendar onChange={setDate} value={date} />
+                                <Calendar onChange={(value) => setDate(value as Date)} value={date} />
                             </div>
                         </div>
                         <div className="cal-top-right">
-                            <div className="cal-categorize">{categorizeEvents(date)}</div>
+                            <div className="cal-categorize">{categorizeEvents(date as Date)}</div>
                             <div className="cal-filter-event-list">
                                 <div className="cal-scrollable">
                                     {filteredEvents.map((event, index) => (
@@ -62,7 +100,14 @@ export default function Calender() {
                     </div>
                     <div className="cal-bottom">
                         <div className="cal-list-events">
-                            Events
+                            <p className="list-of-events">Events</p>
+                            <div className="list-scrollable">
+                                {filteredEvents.map((event, index) => (
+                                    <div key={index} className='list-event'>{event.title}
+                                        {index < filteredEvents.length - 1 && <div className="list-divider-cal"></div>}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
