@@ -6,6 +6,7 @@ import Welcome from '../Pages/Welcome'
 import Events from '../Pages/Events'
 import Explore from '../Pages/Explore'
 import Calender from '../Pages/Calender'
+import LeaderBoard from '../Pages/LeaderBoard'
 export default function App() {
     return (
         <Routes>
@@ -16,6 +17,7 @@ export default function App() {
             <Route path='/events' element={<Events/>}/>
             <Route path='/explore' element={<Explore/>}/>
             <Route path='/calender' element={<Calender/>}/>
+            <Route path='/leaderboard' element={<LeaderBoard/>}/>
         </Routes>
     )
 }

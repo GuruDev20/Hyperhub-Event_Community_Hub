@@ -3,6 +3,7 @@ import '../Styles/Event.css';
 import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from 'react-icons/md';
 import Navbar from '../Components/Navbar';
 import { IoClose } from "react-icons/io5";
+import Footer from '../Components/Footer';
 const suggestions = [
     'Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 
     'Dindigul', 'Erode', 'Kallakurichi', 'Kanchipuram', 'Kanyakumari', 'Karur', 
@@ -262,6 +263,7 @@ export default function Events() {
                     <div className="filtered-result-section"></div>
                 </div>
             </div>
+            <div><Footer/></div>
         </>
     );
 }
