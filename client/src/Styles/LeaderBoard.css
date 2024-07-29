@@ -80,3 +80,10 @@
 .add-leader{
     padding: 5px;
 }
+.leader-bottom{
+    display: flex;
+    flex-direction: column;
+}
+.top-leader{
+    margin-left: 1em;
+}

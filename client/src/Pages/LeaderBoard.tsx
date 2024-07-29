@@ -20,8 +20,7 @@ const performers: Performer[] = [
 ];
 
 const top3Performers = [...performers].sort((a, b) => b.score - a.score).slice(0, 5);
-
-const topPerformers=performers;
+const topPerformers = [...performers].sort((a, b) => b.score - a.score).slice(5);
 
 
 export default function LeaderBoard() {
@@ -66,7 +65,19 @@ export default function LeaderBoard() {
                     <div className="leader-bottom">
                         <p className="top-leader">Top Performers</p>
                         {topPerformers.map((performer, index) => (
-                            <p key={index}>{performer.name}: {performer.score}</p>
+                            <div key={index} className='top-results'>
+                                <div className="result-head">
+                                    <p>{performer.name}</p>
+                                    <div className="result-opt">
+                                        <p>{performer.score}</p>
+                                        <LiaMedalSolid size={20}/>
+                                        <button className="top-add-friend"><GoPersonAdd color='white' className='add-leader' size={20}/></button>
+                                    </div>
+                                </div>
+                                <>
+                                    {index < topPerformers.length-1 && <div className="divider-cal"></div>}
+                                </>
+                            </div>
                         ))}
                     </div>
                 </div>
