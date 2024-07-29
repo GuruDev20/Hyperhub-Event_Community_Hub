@@ -7,6 +7,8 @@ import Events from '../Pages/Events'
 import Explore from '../Pages/Explore'
 import Calender from '../Pages/Calender'
 import LeaderBoard from '../Pages/LeaderBoard'
+import Community from '../Pages/Community'
+import Notifications from '../Pages/Notifications'
 export default function App() {
     return (
         <Routes>
@@ -18,6 +20,8 @@ export default function App() {
             <Route path='/explore' element={<Explore/>}/>
             <Route path='/calender' element={<Calender/>}/>
             <Route path='/leaderboard' element={<LeaderBoard/>}/>
+            <Route path='/community' element={<Community/>}/>
+            <Route path='/notification' element={<Notifications/>}/>
         </Routes>
     )
 }

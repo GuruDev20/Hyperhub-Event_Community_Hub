@@ -44,7 +44,7 @@ export default function LeaderBoard() {
                         </BarChart>
                         </div>
                         <div className="leader-top3">
-                            <p className="top3">Top 3 Performers</p>
+                            <p className="top3">Best Performers</p>
                             {top3Performers.map((performer, index) => (
                                 <div key={index} className='top-results'>
                                     <div className="result-head">
