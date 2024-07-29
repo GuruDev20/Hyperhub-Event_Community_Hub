@@ -7,6 +7,7 @@
 .community-body-mid{
     display: grid;
     grid-template-columns: 25% 75%;
+    grid-column-gap: 10px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border: 1px solid #eae4e9;
     border-radius: 5px;
@@ -116,7 +117,6 @@
 .vertical-com-border{
     border-left: 1px solid #22333b;
     max-height: 100vh;
-    /* margin: 2em 0; */
     width: 1em;
     padding-top: 2em;
     margin-top: 1em;
@@ -124,4 +124,75 @@
 .community-mid-right{
     display: flex;
     flex-direction: row;
+}
+.community-description{
+    display: flex;
+    flex-direction: row;
+    align-items:flex-start;
+    font-size: 17px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 1em;
+    /* background-color: red; */
+    /* margin-left: 1em; */
+}
+.community-profile-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.community-opt{
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5em;
+    margin-left: 54em;
+}
+.community-logo{
+    margin-right: 0.5em;
+    margin-left: 1em;
+    background-color: #001d3d;
+    color: white;
+    font-size: 20px;
+    padding: 0.5em;
+    border-radius: 45%;
+}
+.community-leave,.community-close{
+    margin-right: 1em;
+}
+.community-profile-contents{
+    /* background-color: red; */
+}
+.community-description{
+    background: rgb(247,225,215);
+    background: linear-gradient(90deg, rgba(247,225,215,1) 0%, rgba(227,213,202,1) 13%, rgba(213,189,175,1) 57%);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 5px;
+}
+.content-body{
+    background-color: white;
+    max-height: 100vh;
+}
+.content-send-body{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-between;
+    margin-top: 25em;
+}
+.content-add-files,.content-send{
+    padding: 1em;
+}
+.content-send{
+    margin-left: 46em;
+}
+.send-msg{
+    width: 410%;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding-top: 0.8em;
+    padding-left: 10px;
+    padding-bottom: 0.8em;
+    font-size: 18px;
 }

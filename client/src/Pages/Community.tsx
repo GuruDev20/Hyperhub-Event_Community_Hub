@@ -2,8 +2,11 @@ import { useState } from 'react';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import { MdOutlineExplore, MdOutlineAddLocationAlt } from "react-icons/md";
+import { IoArrowBack } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import '../Styles/Community.css';
-
+import { GoPaperclip } from "react-icons/go";
+import { PiTelegramLogo } from "react-icons/pi";
 export default function Community() {
     const [mode, setMode] = useState<'chats' | 'groups'>('chats');
 
@@ -32,7 +35,7 @@ export default function Community() {
                                 <MdOutlineExplore size={24} />
                             </div>
                             <div className="community-create">
-                                <p className="com-create-title">Create</p>
+                                <p className="com-create-title">New</p>
                                 <MdOutlineAddLocationAlt size={24} />
                             </div>
                         </div>
@@ -57,24 +60,28 @@ export default function Community() {
                         </div>
                         <div className="community-mid-right">
                             <div className="vertical-com-border"></div>
-                            <>
+                            <div className='community-profile-contents'>
                                 <div className="community-description">
-                                    <div className="community-logo">D</div>
-                                    <div className="community-name">Dev</div>
+                                    <div className='community-profile-content'>
+                                        <div className="community-logo">D</div>
+                                        <div className="community-name">Dev</div>
+                                    </div>
                                     <div className="community-opt">
-                                        <div className="community-close"></div>
-                                        <div className="community-leave"></div>
+                                        <div className="community-leave"><IoArrowBack size={24}/></div>
+                                        <div className="community-close"><IoClose size={24}/></div>
                                     </div>
                                 </div>
                                 <div className="community-content">
                                     <div className="content-body"></div>
                                     <div className="content-send-body">
-                                        <div className="content-add-files"></div>
-                                        <div className="content-add-text"></div>
-                                        <div className="content-send"></div>
+                                        <div className="content-add-files"><GoPaperclip size={24}/></div>
+                                        <div className="content-add-text">
+                                            <input type="text" name="send" id="send" className="send-msg" placeholder='Type a Message' />
+                                        </div>
+                                        <div className="content-send"><PiTelegramLogo size={24}/></div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         </div>
                     </div>
                     <div className="community-body-right"></div>
