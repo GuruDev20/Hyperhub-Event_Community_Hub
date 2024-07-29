@@ -49,9 +49,9 @@ export default function Navbar() {
                 <Link to='/notification' className={`link ${currentLocation.pathname === '/notification' ? 'active' : ''}`}>
                     <div className="notification">Notification<RiNotificationLine size={24} className='nav-logo' /></div>
                 </Link>
-                <div className="search-bar">
+                {/* <div className="search-bar">
                     <input type="search" className="search-bar" title='Search' placeholder='Search'/>
-                </div>
+                </div> */}
             </div>
             <div className="nav-right">
                 {
