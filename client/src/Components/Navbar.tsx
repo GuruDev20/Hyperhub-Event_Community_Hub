@@ -8,7 +8,7 @@ import '../Styles/Navbar.css';
 import { getLocation } from "../Services/GeoLocation";
 
 export default function Navbar() {
-    const logIn = true;
+    const logIn = false;
     const [location, setLocation] = useState({ state: '', country: '' });
     const currentLocation = useLocation();
 

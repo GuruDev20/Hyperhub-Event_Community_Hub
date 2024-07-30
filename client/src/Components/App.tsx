@@ -22,6 +22,8 @@ export default function App() {
             <Route path='/leaderboard' element={<LeaderBoard/>}/>
             <Route path='/community' element={<Community/>}/>
             <Route path='/notification' element={<Notifications/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>}/>
         </Routes>
     )
 }

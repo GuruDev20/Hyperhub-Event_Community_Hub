@@ -1,0 +1,102 @@
+.login-container{
+    position: absolute;
+    top: 13%;
+    left: 38%;
+    width: 25em;
+    background-color: whitesmoke;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    height: 63vh;
+    display:flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+.login-box{
+    font-size: 28px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #22333b;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    font-size: 22px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.form-group{
+    display: flex;
+    flex-direction: column;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    width: 100%;
+    font-size: 20px;
+}
+.form-control{
+    width: 88%;
+    padding: 1em;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    margin-top: 1em;
+    font-size: 16px;
+    margin-left: 0.5em;
+}
+.login-btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+    width: 98%;
+    padding: 15px;
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 5px;
+    color: white;
+    background-color: #22333b;
+    margin-bottom: 0.5em;
+    margin-left: 0.3em;
+}
+.login-btn:hover{
+    background-color: #415a77;
+}
+label{
+    margin-left: 0.5em;
+}
+.forget-password,.no-account{
+    font-size: 16px;
+    margin-left: 0.5em;
+}
+.forget-password{
+    margin-top: 1.5em;
+}
+.no-account{
+    margin-top: 1em;
+}
+.login-opt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 10em;
+    margin-top: 1.5em;
+    margin-left: 4em;
+}
+.register-toggle{
+    margin-left: 0.3em;
+    color: #3a86ff;
+}
+.link-register{
+    text-decoration: none;
+}
+.login-logo{
+    margin-right: 0.5em;
+}
