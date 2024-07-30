@@ -6,27 +6,8 @@ import Navbar from '../Components/Navbar';
 import '../Styles/EventCalender.css';
 
 export default function Calender() {
-    const [date, setDate] = useState<Date | null>(new Date());
+    const [date, setDate] = useState<Date>(new Date());
     const events = [
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
         { title: "Event 1", date: new Date() },
         { title: "Event 1", date: new Date() },
         { title: "Event 1", date: new Date() },
@@ -69,7 +50,7 @@ export default function Calender() {
     const filteredEvents = events.filter(event => {
         const eventDate = new Date(event.date);
         eventDate.setHours(0, 0, 0, 0);
-        return date && eventDate.getTime() === new Date(date).getTime();
+        return eventDate.getTime() === date.setHours(0, 0, 0, 0);
     });
 
     return (
@@ -82,7 +63,7 @@ export default function Calender() {
                         <div className="cal-top-left">
                             <p className="cal-title">Your Calendar</p>
                             <div className="cal-calender">
-                                <Calendar onChange={(value) => setDate(value as Date)} value={date} />
+                                <Calendar onChange={(value) => setDate(value as Date )} value={date} />
                             </div>
                         </div>
                         <div className="cal-top-right">
