@@ -4,17 +4,17 @@ const jwt = require('jsonwebtoken');
 
 const register=async(req,res)=>{
     try{
-        const {name,email,password,mobile}=req.body;
-        const existingUser=await UserModel.findOne({email:email});
+        const {username,email,password,mobile}=req.body;
+        const existingUser=await UserModel.findOne({email:email})
         if(existingUser){
             return res.status(401).json({success:false,message:"User already exists"});
         }
-        const hashPassword=await bcrypt.hashSync(password,10);
-        const newUser=new UserModel({name,email,password:hashPassword,mobile});
+        const hashPassword=await bcrypt.hashSync(password,10)
+        const newUser=new UserModel({username,email,password:hashPassword,mobile});
         await newUser.save();
-        res.status(200).json({success:true,message:"Registered user successfully",newUser});
+        res.status(200).json({success:true,message:"Registered User Successfully",newUser});
     }
-    catch(err){
+    catch(error){
         res.status(500).json({success:false,message:"Internal server error"});
     }
 }

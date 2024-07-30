@@ -4,12 +4,7 @@ import '../Styles/LeaderBoard.css';
 import { BarChart, Bar, XAxis, YAxis, Cell } from 'recharts';
 import { LiaMedalSolid } from "react-icons/lia";
 import { GoPersonAdd } from "react-icons/go";
-interface Performer {
-    name: string;
-    score: number;
-}
-
-const performers: Performer[] = [
+const performers=[
     { name: 'Alice', score: 90 },
     { name: 'Dev(You)', score: 75 },
     { name: 'Eve', score: 65 },
