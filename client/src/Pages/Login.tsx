@@ -10,9 +10,14 @@ interface LoginData {
     password: string;
 }
 
+interface Validation{
+    isValid:boolean,
+    message:string
+}
 export default function Login() {
     const [data, setData] = useState<LoginData>({ email: '', password: '' });
-
+    const [emailValidation, setEmailValidation] = useState<Validation>({ isValid: true, message: '' });
+    const [passwordValidation, setPasswordValidation] = useState<Validation>({ isValid: true, message: '' });
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();  
         console.log(data);
@@ -22,6 +27,24 @@ export default function Login() {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const{id,value}=e.target;
         setData(prevData => ({...prevData,[id]: value,}));
+        if(id==='email'){
+            validateEmail(value);
+        }
+        else if(id==='password'){
+            validatePassword(value);
+        }
+    };
+
+    const validateEmail = (value:string) => {
+        const isValid = /^[^\s@]+@[^\s@]+\.(com|in|ac\.in)$/.test(value);
+        const message = isValid ? 'Correct' : 'Invalid email address';
+        setEmailValidation({ isValid, message });
+    };
+
+    const validatePassword = (value:string) => {
+        const isValid = value.length >= 6;
+        const message = isValid ? 'Correct' : 'Password should be at least 6 characters';
+        setPasswordValidation({ isValid, message });
     };
 
     return (
@@ -33,10 +56,12 @@ export default function Login() {
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input type="email" className="form-control"id="email" placeholder="Enter email" value={data.email} onChange={handleChange}/>
+                            <span className={`validation-message ${emailValidation.isValid ? 'valid' : 'invalid'}`}>{emailValidation.message}</span>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
                             <input type="password" className="form-control" id="password" placeholder="Enter password" value={data.password} onChange={handleChange}/>
+                            <span className={`validation-message ${passwordValidation.isValid ? 'valid' : 'invalid'}`}>{passwordValidation.message}</span>
                         </div>
                         <div className="forget-password">Forget-Password?</div>
                         <button type="submit" className="login-btn">Login</button>
