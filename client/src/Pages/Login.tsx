@@ -4,7 +4,7 @@ import { SiHubspot } from 'react-icons/si';
 import { FaGoogle } from "react-icons/fa";
 import { MdFacebook } from "react-icons/md";
 import { FaXTwitter } from "react-icons/fa6";
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 interface LoginData {
     email: string;
     password: string;
@@ -15,6 +15,7 @@ interface Validation{
     message:string
 }
 export default function Login() {
+    const navigate=useNavigate();
     const [data, setData] = useState<LoginData>({ email: '', password: '' });
     const [emailValidation, setEmailValidation] = useState<Validation>({ isValid: true, message: '' });
     const [passwordValidation, setPasswordValidation] = useState<Validation>({ isValid: true, message: '' });
@@ -22,6 +23,9 @@ export default function Login() {
         e.preventDefault();  
         console.log(data);
         setData({ email: '', password: '' });
+        setEmailValidation({ isValid: true, message: '' });
+        setPasswordValidation({ isValid: true, message: '' });
+        navigate('/')
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
