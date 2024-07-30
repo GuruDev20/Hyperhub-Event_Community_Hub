@@ -14,7 +14,16 @@ const suggestions = [
     'Virudhunagar'
 ];
 
-const initialSelectedItems={
+type SelectedItemsType = {
+    types: string[],
+    dates: string[],
+    locations: string[],
+    prices: string[],
+    popular: string[],
+    ages: string[],
+}
+
+const initialSelectedItems: SelectedItemsType = {
     types: [],
     dates: [],
     locations: [],
@@ -31,9 +40,9 @@ export default function Events() {
     const [showPopularDropdown, setShowPopularDropdown] = useState(false);
     const [showAgeDropdown, setShowAgeDropdown] = useState(false);
 
-    const [selectedItems, setSelectedItems] = useState(initialSelectedItems);
+    const [selectedItems, setSelectedItems] = useState<SelectedItemsType>(initialSelectedItems);
 
-    const handleCheckboxChange = (category,value) => {
+        const handleCheckboxChange = (category: keyof SelectedItemsType, value: string) => {
         setSelectedItems(prevSelectedItems => {
             const updatedCategoryItems = prevSelectedItems[category].includes(value)
                 ? prevSelectedItems[category].filter(item => item !== value)
@@ -46,7 +55,7 @@ export default function Events() {
         });
     };
 
-    const handleRemoveItem = (category,value) => {
+        const handleRemoveItem = (category: keyof SelectedItemsType, value: string) => {
         setSelectedItems(prevSelectedItems => {
             const updatedCategoryItems = prevSelectedItems[category].filter(item => item !== value);
             return {
@@ -56,7 +65,7 @@ export default function Events() {
         });
     };
 
-    const isChecked = (category,value) => {
+        const isChecked = (category: keyof SelectedItemsType, value: string) => {
         return selectedItems[category].includes(value);
     };
 
@@ -66,12 +75,12 @@ export default function Events() {
 
     const renderSelectedItems = () => {
         return Object.keys(selectedItems).map(category => (
-            selectedItems[category].map(item => (
+            selectedItems[category as keyof SelectedItemsType].map(item => (
                 <div key={item} className='selected-item-container'>
                     <div className="selected-item">
                         {item}
                     </div>
-                    <IoClose size={18} onClick={() => handleRemoveItem(category, item)} />
+                                        <IoClose size={18} onClick={() => handleRemoveItem(category as keyof SelectedItemsType, item)} />
                 </div>
             ))
         ));
