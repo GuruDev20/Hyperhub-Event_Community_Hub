@@ -79,28 +79,32 @@ export default function Register() {
                 <div className="register-box"><SiHubspot size={34} className="register-logo" />Hyperhub</div>
                 <div className="register-form">
                     <form onSubmit={handleSubmit}>
-                        <div className="register-form-group">
-                            <label htmlFor="username">Username</label>
-                            <input type="text" name="username" value={data.username} onChange={handleChange} id="username" className="register-form-control" />
-                            <span className={`validation-message ${emailValidation.isValid ? 'valid' : 'invalid'}`}>{usernameValidation.message}</span>
+                        <div className="reg-group">
+                            <div className="register-form-group">
+                                <label htmlFor="username">Username</label>
+                                <input type="text" name="username" value={data.username} onChange={handleChange} id="username" className="register-form-control" placeholder="Username" />
+                                <span className={`validation-message ${usernameValidation.isValid ? 'valid' : 'invalid'}`}>{usernameValidation.message}</span>
+                            </div>
+                            <div className="register-form-group">
+                                <label htmlFor="mobile">Mobile</label>
+                                <input type="text" name="mobile" value={data.mobile} onChange={handleChange} id="mobile" className="register-form-control" placeholder="Mobile"/>
+                                <span className={`validation-message ${mobileValidation.isValid ? 'valid' : 'invalid'}`}>{mobileValidation.message}</span>
+                            </div>
                         </div>
-                        <div className="register-form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" name="email" value={data.email} onChange={handleChange} id="email" className="register-form-control" />
-                            <span className={`validation-message ${emailValidation.isValid ? 'valid' : 'invalid'}`}>{emailValidation.message}</span>
-                        </div>
-                        <div className="register-form-group">
-                            <label htmlFor="password">Password</label>
-                            <input type="password" name="password" value={data.password} onChange={handleChange} id="password" className="register-form-control" />
-                            <span className={`validation-message ${passwordValidation.isValid ? 'valid' : 'invalid'}`}>{passwordValidation.message}</span>
-                        </div>
-                        <div className="register-form-group">
-                            <label htmlFor="mobile">Mobile</label>
-                            <input type="text" name="mobile" value={data.mobile} onChange={handleChange} id="mobile" className="register-form-control" />
-                            <span className={`validation-message ${mobileValidation.isValid ? 'valid' : 'invalid'}`}>{mobileValidation.message}</span>
+                        <div className="reg-group">
+                            <div className="register-form-group">
+                                <label htmlFor="email">Email</label>
+                                <input type="email" name="email" value={data.email} onChange={handleChange} id="email" className="register-form-control" placeholder="Email"/>
+                                <span className={`validation-message ${emailValidation.isValid ? 'valid' : 'invalid'}`}>{emailValidation.message}</span>
+                            </div>
+                            <div className="register-form-group">
+                                <label htmlFor="password">Password</label>
+                                <input type="password" name="password" value={data.password} onChange={handleChange} id="password" className="register-form-control" placeholder="Password"/>
+                                <span className={`validation-message ${passwordValidation.isValid ? 'valid' : 'invalid'}`}>{passwordValidation.message}</span>
+                            </div>
                         </div>
                         <button type="submit" className="register-btn">Register</button>
-                        <div className="already-account">Already have an account? <Link to="/login" className="link-login"><span className="login-toggle">Login</span>.</Link></div>
+                        <div className="already-account">Already have an account? <Link to="/login" className="link-login"><span className="login-toggle">Login</span></Link></div>
                     </form>
                 </div>
             </div>
