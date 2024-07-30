@@ -4,6 +4,7 @@ import { SiHubspot } from 'react-icons/si';
 import { FaGoogle } from "react-icons/fa";
 import { MdFacebook } from "react-icons/md";
 import { FaXTwitter } from "react-icons/fa6";
+import {toast} from 'react-hot-toast'
 import {Link,useNavigate} from 'react-router-dom'
 interface LoginData {
     email: string;
@@ -25,6 +26,7 @@ export default function Login() {
         setData({ email: '', password: '' });
         setEmailValidation({ isValid: true, message: '' });
         setPasswordValidation({ isValid: true, message: '' });
+        toast.success('Login Successful')
         navigate('/')
     };
 
@@ -59,7 +61,7 @@ export default function Login() {
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
-                            <input type="email" className="form-control"id="email" placeholder="Enter email" value={data.email} onChange={handleChange}/>
+                            <input type="email" name="email" value={data.email} onChange={handleChange} id="email" className="form-control" placeholder="Email"/>
                             <span className={`validation-message ${emailValidation.isValid ? 'valid' : 'invalid'}`}>{emailValidation.message}</span>
                         </div>
                         <div className="form-group">

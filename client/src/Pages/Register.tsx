@@ -2,6 +2,7 @@ import { FormEvent,useState,ChangeEvent } from "react"
 import '../Styles/Register.css';
 import {Link,useNavigate} from 'react-router-dom';
 import { SiHubspot } from 'react-icons/si';
+import {toast} from 'react-hot-toast'
 interface RegisterData{
     username:string;
     email:string;
@@ -29,6 +30,7 @@ export default function Register() {
         setEmailValidation({ isValid: true, message: '' });
         setPasswordValidation({ isValid: true, message: '' });
         setMobileValidation({ isValid: true, message: '' });
+        toast.success("Registration Successful");
         navigate('/login');
     };
 
