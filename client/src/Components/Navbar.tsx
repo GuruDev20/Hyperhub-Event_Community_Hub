@@ -6,9 +6,13 @@ import { RiCommunityLine, RiNotificationLine } from "react-icons/ri";
 import { Link, useLocation } from 'react-router-dom';
 import '../Styles/Navbar.css';
 import { getLocation } from "../Services/GeoLocation";
-
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import Cookies from 'js-cookie'
 export default function Navbar() {
-    const logIn = false;
+    const logIn = Cookies.get('token');
+    const navigate=useNavigate();
     const [location, setLocation] = useState({ state: '', country: '' });
     const currentLocation = useLocation();
 
@@ -22,6 +26,18 @@ export default function Navbar() {
         fetchLocation();
     }, []);
 
+    const handleLogout=async()=>{
+        try{
+            const request=await axios.post('http://localhost:4000/api/auth/logout');
+            if(request.status===200){
+                toast.success(request.data.message);
+                navigate('/login');
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
     return (
         <div className="navbar-head">
             <Link to='/' className='links'>
@@ -71,6 +87,9 @@ export default function Navbar() {
                             </div>
                             <div className="user-profile">
                                 <MdOutlinePersonOutline size={30} />
+                            </div>
+                            <div className="logout-btn">
+                                <button className="logout" onClick={handleLogout}>Logout</button>
                             </div>
                         </>
                     )

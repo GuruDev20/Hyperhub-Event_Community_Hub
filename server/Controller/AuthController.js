@@ -52,6 +52,14 @@ const verifyOtp=async(req,res)=>{
 const updatePassword=async(req,res)=>{
 
 }
+const logout=async(req,res)=>{
+    try{
+        res.clearCookie('token')
+        res.status(200).json({message:"Logout successfully"});
+    }
+    catch(error){
+        res.status(500).json({success:false,message:"Internal server error"});
+    }
+}
 
-
-module.exports={register,login,forgotPassword,resetPassword,verifyOtp,updatePassword}
+module.exports={register,login,forgotPassword,resetPassword,verifyOtp,updatePassword,logout}
