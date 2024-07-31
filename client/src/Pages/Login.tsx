@@ -6,6 +6,8 @@ import { MdFacebook } from "react-icons/md";
 import { FaXTwitter } from "react-icons/fa6";
 import {toast} from 'react-hot-toast'
 import {Link,useNavigate} from 'react-router-dom'
+import axios from 'axios';
+import Cookies from 'js-cookie'
 interface LoginData {
     email: string;
     password: string;
@@ -20,14 +22,22 @@ export default function Login() {
     const [data, setData] = useState<LoginData>({ email: '', password: '' });
     const [emailValidation, setEmailValidation] = useState<Validation>({ isValid: true, message: '' });
     const [passwordValidation, setPasswordValidation] = useState<Validation>({ isValid: true, message: '' });
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();  
-        console.log(data);
-        setData({ email: '', password: '' });
-        setEmailValidation({ isValid: true, message: '' });
-        setPasswordValidation({ isValid: true, message: '' });
-        toast.success('Login Successful')
-        navigate('/')
+        try{
+            const response=await axios.post("http://localhost:4000/api/auth/login",data);
+            if(response.status===200){
+                setData({ email: '', password: '' });
+                setEmailValidation({ isValid: true, message: '' });
+                setPasswordValidation({ isValid: true, message: '' });
+                Cookies.set('token', response.data.token, { expires: 7 });
+                toast.success(response.data.message);
+                navigate('/')
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
