@@ -136,3 +136,7 @@ label{
 .validation-message.invalid {
     color: red;
 }
+.forget{
+    text-decoration: none;
+    color: #3a86ff;
+}

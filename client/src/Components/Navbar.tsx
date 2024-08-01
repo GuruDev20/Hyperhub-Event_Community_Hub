@@ -30,6 +30,7 @@ export default function Navbar() {
         try{
             const request=await axios.post('http://localhost:4000/api/auth/logout');
             if(request.status===200){
+                Cookies.remove('token');
                 toast.success(request.data.message);
                 navigate('/login');
             }

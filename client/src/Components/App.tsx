@@ -9,6 +9,8 @@ import Calender from '../Pages/Calender'
 import LeaderBoard from '../Pages/LeaderBoard'
 import Community from '../Pages/Community'
 import Notifications from '../Pages/Notifications'
+import ForgetPassword from '../Pages/ForgetPassword'
+// import '../Styles/App.css'
 export default function App() {
     return (
         <Routes>
@@ -24,6 +26,7 @@ export default function App() {
             <Route path='/notification' element={<Notifications/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
+            <Route path='/forget-password' element={<ForgetPassword/>}/>
         </Routes>
     )
 }

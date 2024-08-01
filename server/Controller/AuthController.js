@@ -54,7 +54,7 @@ const updatePassword=async(req,res)=>{
 }
 const logout=async(req,res)=>{
     try{
-        res.clearCookie('token')
+        res.clearCookie('token',{path:'/'})
         res.status(200).json({message:"Logout successfully"});
     }
     catch(error){

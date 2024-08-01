@@ -79,7 +79,7 @@ export default function Login() {
                             <input type="password" className="form-control" id="password" placeholder="Enter password" value={data.password} onChange={handleChange}/>
                             <span className={`validation-message ${passwordValidation.isValid ? 'valid' : 'invalid'}`}>{passwordValidation.message}</span>
                         </div>
-                        <div className="forget-password">Forget-Password?</div>
+                        <div className="forget-password"><Link to='/forget-password' className='forget'>Forget-Password?</Link></div>
                         <button type="submit" className="login-btn">Login</button>
                         <div className="no-account">Don't have an account?<Link to='/register' className='link-register'><span className="register-toggle">Register</span></Link></div>
                         <div className="login-opt">
