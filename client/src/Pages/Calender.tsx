@@ -7,7 +7,7 @@ import '../Styles/EventCalender.css';
 import { GoPlus } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { IoIosStarOutline } from "react-icons/io";
-
+import { FiUploadCloud } from "react-icons/fi";
 const suggestions = [
     'Location', 'Current Location', 'Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 
     'Dindigul', 'Erode', 'Kallakurichi', 'Kanchipuram', 'Kanyakumari', 'Karur', 
@@ -80,132 +80,155 @@ export default function Calender() {
         setShowAddEventBox(!showAddEventBox);
     }
     return (
-            <div className={`calendar-container ${showAddEventBox ? 'transparent-background' : ''}`}>
-            <Navbar />
-            <div className="calender-content">
-                <div className="cal-left"></div>
-                <div className="cal-mid">
-                    <div className="cal-top">
-                        <div className="cal-top-left">
-                            <p className="cal-title">Your Calendar</p>
-                            <div className="cal-calender">
-                                <Calendar onChange={(value) => setDate(value as Date )} value={date} />
-                            </div>
-                        </div>
-                        <div className="cal-top-right">
-                            <div className="event-opt">
-                                <div className="cal-categorize">{categorizeEvents(date as Date)}</div>
-                                <div className="add-event">
-                                    <button className="add-evt" onClick={toggleShowAddEventBox}>
-                                        <p className="add-text">Add</p>
-                                        <GoPlus className='add-event-icon' size={20}/>
-                                    </button>
-                                    {showAddEventBox && 
-                                        <div className="toggle-add-box">
-                                            <div className="toggle-content-box">
-                                                <div className="event-title">
-                                                    <p className="evt-title">Add Event</p>
-                                                    <IoMdClose size={24} onClick={toggleShowAddEventBox} className='toggle-close'/>
-                                                </div>
-                                                <div className="event-details">
-                                                    <div className="event-types-dates">
-                                                        <div className="event-types">
-                                                            <p className="event-type-name">Type</p>
-                                                            <select name="event-types" className='event-typ' id="event-type">
-                                                                <option value="Type">Type</option>
-                                                                <option value="Music" className="list-type-events">Music</option>
-                                                                <option value="Food & Drink" className="list-type-events">Food & Drink</option>
-                                                                <option value="Arts & Culture" className="list-type-events">Arts & Culture</option>
-                                                                <option value="Sports" className="list-type-events">Sports</option>
-                                                                <option value="Family & Kids" className="list-type-events">Family & Kids</option>
-                                                                <option value="Festivals" className="list-type-events">Festivals</option>
-                                                                <option value="Workshops" className="list-type-events">Workshops</option>
-                                                                <option value="Nightlife" className="list-type-events">Nightlife</option>
-                                                                <option value="Others" className="list-type-events">Others</option>
-                                                            </select>
-                                                        </div>
-                                                        <div className="event-dates">
-                                                            <p className="event-date-name">Date</p>
-                                                            <input type="date" name="date" id="date" className="list-event-dates" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="event-locations-prices">
-                                                        <div className="event-locations">
-                                                            <p className="event-location-name">Location</p>
-                                                            <select name="event-locations" id="event-location" className="location-event">
-                                                                {suggestions.map((suggestion, index) => (
-                                                                    <option key={index} value={suggestion} className="list-event-location">{suggestion}</option>
-                                                                ))}
-                                                            </select>
-                                                        </div>
-                                                        <div className="event-popularity">
-                                                            <p className="event-ratings-name">Ratings</p>
-                                                            <p className="event-ratings">
-                                                                {[...Array(5)].map((_, index) => (
-                                                                    <span key={index} className="star"><IoIosStarOutline size={24}/></span>
-                                                                ))}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="event-popularity-ages">
-                                                        <div className="event-prices">
-                                                            <div className="event-price-details">
-                                                                <p className="event-price-name">Price</p>
-                                                                <select name="event-price" id="event-price" className="event-paid" onChange={handlePriceChange}>
-                                                                    <option value="Price">Price</option>
-                                                                    <option value="Free" className="list-event-price">Free</option>
-                                                                    <option value="Paid" className="list-event-price">Paid</option>
-                                                                </select>
-                                                            </div>
-                                                            <>
-                                                                {eventPrice === "Paid" && (
-                                                                    <input type="text" name="event-amount" id="event-amount" className="event-amount" placeholder="Enter amount" />
-                                                                )}
-                                                            </>
-                                                        </div>
-                                                        <div className="event-ages">
-                                                            <p className="event-age-name">Age</p>
-                                                            <select name="event-age" id="event-age" className="event-age-category">
-                                                                <option value="All" className="list-event-age">All</option>
-                                                                <option value="Kids" className="list-event-age">Kids</option>
-                                                                <option value="Teens" className="list-event-age">Teens</option>
-                                                                <option value="Adults" className="list-event-age">Adults</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
+        <div className='overall-container'>
+            <div className='calendar-container'>
+                <Navbar />
+                <div className="calender-content">
+                    <div className="cal-left"></div>
+                    <div className="cal-mid">
+                        <div className="cal-top">
+                            <div className="cal-top-left">
+                                <p className="cal-title">Your Calendar</p>
+                                <div className="cal-calender">
+                                    <Calendar onChange={(value) => setDate(value as Date )} value={date} />
                                 </div>
                             </div>
-                            <div className="cal-filter-event-list">
-                                <div className="cal-scrollable">
+                            <div className="cal-top-right">
+                                <div className="event-opt">
+                                    <div className="cal-categorize">{categorizeEvents(date as Date)}</div>
+                                    <div className="add-event">
+                                        <button className="add-evt" onClick={toggleShowAddEventBox}>
+                                            <p className="add-text">Add</p>
+                                            <GoPlus className='add-event-icon' size={20}/>
+                                        </button>
+                                        {showAddEventBox && 
+                                        <>
+                                            <div className="blur-overlay"></div>
+                                            <div className='toggle-add-box'>
+                                                <div className="toggle-content-box">
+                                                    <div className="event-title">
+                                                        <p className="evt-title">Add Event</p>
+                                                        <IoMdClose size={24} onClick={toggleShowAddEventBox} className='toggle-close'/>
+                                                    </div>
+                                                    <div className="event-details">
+                                                        <div className="event-title-description">
+                                                            <p className="evt-tite">Event Title</p>
+                                                            <input type="text" className='event-title-input' name="event-title" id="event-title"/>
+                                                        </div>
+                                                        <div className="event-sample-img">
+                                                            <div className="event-img-description">
+                                                                <p className="evt-img-des">Description</p>
+                                                                <input type="text" name="event-img" id="event-img" className='des-img'/>
+                                                            </div>
+                                                            <div className="event-img">
+                                                                <div className="img-box">
+                                                                    <FiUploadCloud className='upload-icon'/>Upload
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="event-types-dates">
+                                                            <div className="event-types">
+                                                                <p className="event-type-name">Type</p>
+                                                                <select name="event-types" className='event-typ' id="event-type">
+                                                                    <option value="Type">Type</option>
+                                                                    <option value="Music" className="list-type-events">Music</option>
+                                                                    <option value="Food & Drink" className="list-type-events">Food & Drink</option>
+                                                                    <option value="Arts & Culture" className="list-type-events">Arts & Culture</option>
+                                                                    <option value="Sports" className="list-type-events">Sports</option>
+                                                                    <option value="Family & Kids" className="list-type-events">Family & Kids</option>
+                                                                    <option value="Festivals" className="list-type-events">Festivals</option>
+                                                                    <option value="Workshops" className="list-type-events">Workshops</option>
+                                                                    <option value="Nightlife" className="list-type-events">Nightlife</option>
+                                                                    <option value="Others" className="list-type-events">Others</option>
+                                                                </select>
+                                                            </div>
+                                                            <div className="event-dates">
+                                                                <p className="event-date-name">Date</p>
+                                                                <input type="date" name="date" id="date" className="list-event-dates" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="event-locations-prices">
+                                                            <div className="event-locations">
+                                                                <p className="event-location-name">Location</p>
+                                                                <select name="event-locations" id="event-location" className="location-event">
+                                                                    {suggestions.map((suggestion, index) => (
+                                                                        <option key={index} value={suggestion} className="list-event-location">{suggestion}</option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+                                                            <div className="event-popularity">
+                                                                <p className="event-ratings-name">Ratings</p>
+                                                                <p className="event-ratings">
+                                                                    {[...Array(5)].map((_, index) => (
+                                                                        <span key={index} className="star"><IoIosStarOutline size={24}/></span>
+                                                                    ))}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="event-popularity-ages">
+                                                            <div className="event-prices">
+                                                                <div className="event-price-details">
+                                                                    <p className="event-price-name">Price</p>
+                                                                    <select name="event-price" id="event-price" className="event-paid" onChange={handlePriceChange}>
+                                                                        <option value="Price">Price</option>
+                                                                        <option value="Free" className="list-event-price">Free</option>
+                                                                        <option value="Paid" className="list-event-price">Paid</option>
+                                                                    </select>
+                                                                </div>
+                                                                <>
+                                                                    {eventPrice === "Paid" && (
+                                                                        <input type="text" name="event-amount" id="event-amount" className="event-amount" placeholder="Enter amount" />
+                                                                    )}
+                                                                </>
+                                                            </div>
+                                                            <div className="event-ages">
+                                                                <p className="event-age-name">Age</p>
+                                                                <select name="event-age" id="event-age" className="event-age-category">
+                                                                    <option value="All" className="list-event-age">All</option>
+                                                                    <option value="Kids" className="list-event-age">Kids</option>
+                                                                    <option value="Teens" className="list-event-age">Teens</option>
+                                                                    <option value="Adults" className="list-event-age">Adults</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="add-event-btn">
+                                                    <button className="add-evt-btn">Add Event</button>
+                                                </div>
+                                            </div>
+                                        </>
+                                        }
+                                    </div>
+                                </div>
+                                <div className="cal-filter-event-list">
+                                    <div className="cal-scrollable">
+                                        {filteredEvents.map((event, index) => (
+                                            <div key={index} className='cal-event'>{event.title}
+                                                {index < filteredEvents.length - 1 && <div className="divider-cal"></div>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="cal-bottom">
+                            <div className="cal-list-events">
+                                <p className="list-of-events">Events</p>
+                                <div className="list-scrollable">
                                     {filteredEvents.map((event, index) => (
-                                        <div key={index} className='cal-event'>{event.title}
-                                            {index < filteredEvents.length - 1 && <div className="divider-cal"></div>}
+                                        <div key={index} className='list-event'>{event.title}
+                                            {index < filteredEvents.length - 1 && <div className="list-divider-cal"></div>}
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="cal-bottom">
-                        <div className="cal-list-events">
-                            <p className="list-of-events">Events</p>
-                            <div className="list-scrollable">
-                                {filteredEvents.map((event, index) => (
-                                    <div key={index} className='list-event'>{event.title}
-                                        {index < filteredEvents.length - 1 && <div className="list-divider-cal"></div>}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                    <div className="cal-right"></div>
                 </div>
-                <div className="cal-right"></div>
+                <Footer />
             </div>
-            <Footer />
         </div>
     );
 }
