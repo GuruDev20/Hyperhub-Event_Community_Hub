@@ -6,7 +6,7 @@ import Navbar from '../Components/Navbar';
 import '../Styles/EventCalender.css';
 import { GoPlus } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
-import { IoIosStarOutline } from "react-icons/io";
+import { IoIosStarOutline, IoIosStar } from "react-icons/io";
 import { FiUploadCloud } from "react-icons/fi";
 const suggestions = [
     'Location', 'Current Location', 'Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 
@@ -22,29 +22,24 @@ export default function Calender() {
     const [date, setDate] = useState<Date | null>(new Date());
     const [showAddEventBox,setShowAddEventBox]=useState(false);
     const [eventPrice, setEventPrice] = useState("Free");
+    const [eventTitle, setEventTitle] = useState("");
+    const [eventDescription, setEventDescription] = useState("");
+    const [eventType, setEventType] = useState("");
+    const [eventLocation, setEventLocation]=useState("");
+    const [eventCost,setEventCost]=useState("");
+    const [eventDate, setEventDate]=useState("");
+    const [eventRatings, setEventRatings] = useState<number>(0);
+    const [eventAge,setEventAge]=useState("");
     const handlePriceChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-        setEventPrice(e.target.value);
+        const price=e.target.value;
+        setEventPrice(price);
+        if (price === "Free") {
+            setEventCost("Free");
+        } else {
+            setEventCost("");
+        }
     };
     const events = [
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
-        { title: "Event 1", date: new Date() },
         { title: "Event 1", date: new Date() },
         { title: "Event 2", date: new Date(new Date().setDate(new Date().getDate() - 1)) },
         { title: "Event 3", date: new Date(new Date().setDate(new Date().getDate() + 1)) },
@@ -78,6 +73,13 @@ export default function Calender() {
 
     const toggleShowAddEventBox=()=>{
         setShowAddEventBox(!showAddEventBox);
+    }
+
+    const handleRatingChange = (index: number) => {
+        setEventRatings(index + 1);
+    };
+    const handleSubmit=()=>{
+        console.log(eventTitle,eventDescription,eventType,eventLocation,eventCost,eventDate,eventRatings,eventAge);
     }
     return (
         <div className='overall-container'>
@@ -113,12 +115,12 @@ export default function Calender() {
                                                     <div className="event-details">
                                                         <div className="event-title-description">
                                                             <p className="evt-tite">Event Title</p>
-                                                            <input type="text" className='event-title-input' name="event-title" id="event-title"/>
+                                                            <input type="text" className='event-title-input' name="event-title" id="event-title" placeholder='Event Title' value={eventTitle} onChange={(e)=>setEventTitle(e.target.value)}/>
                                                         </div>
                                                         <div className="event-sample-img">
                                                             <div className="event-img-description">
                                                                 <p className="evt-img-des">Description</p>
-                                                                <input type="text" name="event-img" id="event-img" className='des-img'/>
+                                                                <input type="text" name="event-img" id="event-img" className='des-img' placeholder='Event Description' value={eventDescription} onChange={(e)=>setEventDescription(e.target.value)}/>
                                                             </div>
                                                             <div className="event-img">
                                                                 <div className="img-box">
@@ -129,7 +131,7 @@ export default function Calender() {
                                                         <div className="event-types-dates">
                                                             <div className="event-types">
                                                                 <p className="event-type-name">Type</p>
-                                                                <select name="event-types" className='event-typ' id="event-type">
+                                                                <select name="event-types" className='event-typ' id="event-type" value={eventType} onChange={(e)=>setEventType(e.target.value)}>
                                                                     <option value="Type">Type</option>
                                                                     <option value="Music" className="list-type-events">Music</option>
                                                                     <option value="Food & Drink" className="list-type-events">Food & Drink</option>
@@ -144,13 +146,13 @@ export default function Calender() {
                                                             </div>
                                                             <div className="event-dates">
                                                                 <p className="event-date-name">Date</p>
-                                                                <input type="date" name="date" id="date" className="list-event-dates" />
+                                                                <input type="date" name="date" id="date" className="list-event-dates" value={eventDate} onChange={(e)=>setEventDate(e.target.value)}/>
                                                             </div>
                                                         </div>
                                                         <div className="event-locations-prices">
                                                             <div className="event-locations">
                                                                 <p className="event-location-name">Location</p>
-                                                                <select name="event-locations" id="event-location" className="location-event">
+                                                                <select name="event-locations" id="event-location" className="location-event" value={eventLocation} onChange={(e)=>setEventLocation(e.target.value)}>
                                                                     {suggestions.map((suggestion, index) => (
                                                                         <option key={index} value={suggestion} className="list-event-location">{suggestion}</option>
                                                                     ))}
@@ -160,7 +162,9 @@ export default function Calender() {
                                                                 <p className="event-ratings-name">Ratings</p>
                                                                 <p className="event-ratings">
                                                                     {[...Array(5)].map((_, index) => (
-                                                                        <span key={index} className="star"><IoIosStarOutline size={24}/></span>
+                                                                        <span key={index} className="star" onClick={() => handleRatingChange(index)}>
+                                                                            {index < eventRatings ? <IoIosStar size={24} color="#ee964b"/> : <IoIosStarOutline size={24} />}
+                                                                        </span>
                                                                     ))}
                                                                 </p>
                                                             </div>
@@ -169,7 +173,7 @@ export default function Calender() {
                                                             <div className="event-prices">
                                                                 <div className="event-price-details">
                                                                     <p className="event-price-name">Price</p>
-                                                                    <select name="event-price" id="event-price" className="event-paid" onChange={handlePriceChange}>
+                                                                    <select name="event-price" id="event-price" className="event-paid" onChange={handlePriceChange} value={eventCost}>
                                                                         <option value="Price">Price</option>
                                                                         <option value="Free" className="list-event-price">Free</option>
                                                                         <option value="Paid" className="list-event-price">Paid</option>
@@ -177,13 +181,13 @@ export default function Calender() {
                                                                 </div>
                                                                 <>
                                                                     {eventPrice === "Paid" && (
-                                                                        <input type="text" name="event-amount" id="event-amount" className="event-amount" placeholder="Enter amount" />
+                                                                        <input type="text" name="event-amount" id="event-amount" className="event-amount" placeholder="Enter amount" value={eventCost} onChange={(e)=>setEventCost(e.target.value)} />
                                                                     )}
                                                                 </>
                                                             </div>
                                                             <div className="event-ages">
                                                                 <p className="event-age-name">Age</p>
-                                                                <select name="event-age" id="event-age" className="event-age-category">
+                                                                <select name="event-age" id="event-age" className="event-age-category" value={eventAge} onChange={(e)=>setEventAge(e.target.value)}>
                                                                     <option value="All" className="list-event-age">All</option>
                                                                     <option value="Kids" className="list-event-age">Kids</option>
                                                                     <option value="Teens" className="list-event-age">Teens</option>
@@ -194,7 +198,7 @@ export default function Calender() {
                                                     </div>
                                                 </div>
                                                 <div className="add-event-btn">
-                                                    <button className="add-evt-btn">Add Event</button>
+                                                    <button className="add-evt-btn" onClick={handleSubmit}>Add Event</button>
                                                 </div>
                                             </div>
                                         </>
