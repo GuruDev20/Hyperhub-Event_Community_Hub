@@ -30,6 +30,8 @@ export default function Calender() {
     const [eventDate, setEventDate]=useState("");
     const [eventRatings, setEventRatings] = useState<number>(0);
     const [eventAge,setEventAge]=useState("");
+    const [showFileInput, setShowFileInput] = useState(true);
+    const [displayedImages, setDisplayedImages] = useState(null);
     const handlePriceChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         const price=e.target.value;
         setEventPrice(price);
@@ -78,6 +80,18 @@ export default function Calender() {
     const handleRatingChange = (index: number) => {
         setEventRatings(index + 1);
     };
+
+    const handleImageChange=(e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || []);
+        setDisplayedImages(files);
+        setShowFileInput(false);
+        console.log(files);
+    };
+
+    const deleteSelectedImages=()=>{
+        setDisplayedImages(null);
+        setShowFileInput(true);
+    }
     const handleSubmit=()=>{
         console.log(eventTitle,eventDescription,eventType,eventLocation,eventCost,eventDate,eventRatings,eventAge);
     }
@@ -124,7 +138,26 @@ export default function Calender() {
                                                             </div>
                                                             <div className="event-img">
                                                                 <div className="img-box">
-                                                                    <FiUploadCloud className='upload-icon'/>Upload
+                                                                    {
+                                                                        showFileInput &&
+                                                                        <div>
+                                                                            <label htmlFor="myfileSingle" className="custom-file-input"><FiUploadCloud className='file-img' /> Add Image</label>
+                                                                            <input type="file" id="myfileSingle" name="myfileSingle" onChange={handleImageChange} multiple />
+                                                                        </div>
+                                                                    }
+                                                                    {
+                                                                        !displayedImages ? (<></>) : (
+                                                                            <div className='selected-images-list'>
+                                                                                <img src={URL.createObjectURL(displayedImages[0])} alt="Selected" className='select-img' />
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                    {
+                                                                        displayedImages &&
+                                                                            <div className='delete-button-container' onClick={deleteSelectedImages}>
+                                                                                <button className='delete-button'>Delete</button>
+                                                                            </div>
+                                                                    }
                                                                 </div>
                                                             </div>
                                                         </div>
