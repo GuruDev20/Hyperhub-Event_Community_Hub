@@ -31,7 +31,7 @@ export default function Calender() {
     const [eventRatings, setEventRatings] = useState<number>(0);
     const [eventAge,setEventAge]=useState("");
     const [showFileInput, setShowFileInput] = useState(true);
-    const [displayedImages, setDisplayedImages] = useState(null);
+    const [displayedImages, setDisplayedImages] = useState<File[] |null>(null);
     const handlePriceChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         const price=e.target.value;
         setEventPrice(price);
