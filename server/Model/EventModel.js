@@ -7,7 +7,7 @@ const EventSchema=new mongoose.Schema({
     eventCost:{type:String,required:true},
     eventAge:{type:String,required:true},
     eventRatings:{type:String,required:true},
-    displayedImages:{type:[String],required:true},
+    images:{type:[String],required:true},
     eventDescription:{type:String,required:true},
     host:{type:String,required:true},
 })

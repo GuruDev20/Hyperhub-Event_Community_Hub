@@ -1,14 +1,15 @@
-const EventModel=require('../Model/EventModel')
-const multer=require('multer')
-const path=require('path')
+const EventModel=require('../Model/EventModel');
 const addEvents=async(req,res)=>{
     try{
-        console.log(req.body);
-        console.log(req.body.displayedImages)
+        const {eventTitle,eventType,eventDate,eventLocation,eventCost,eventAge,eventRatings,eventDescription,host}=req.body;
+        const images=req.files?req.files.map((file)=>file.originalname):[];
+        const newEvent=new EventModel({eventTitle,eventType,eventDate,eventLocation,eventCost,eventAge,eventRatings,images,eventDescription,host});
+        await newEvent.save();
+        res.status(200).json({status:200,message:'Event added successfully!'});
     }
     catch(err){
-        res.status(500).json({success:false,message:"Internal server error"})
+        res.status(500).json({success:false,message:'Internal server error'});
     }
-}
+};
 
 module.exports={addEvents};

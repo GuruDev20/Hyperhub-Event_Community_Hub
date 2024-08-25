@@ -118,10 +118,11 @@ export default function Calender() {
     };
 
     const handleImageChange=(e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []);
-        setDisplayedImages(files);
-        setShowFileInput(false);
-        console.log(files);
+        const files=Array.from(e.target.files || []);
+        if(files.length>0){
+            setDisplayedImages(files);
+            setShowFileInput(false);
+        }
     };
 
     const removeImage = () => {
@@ -139,23 +140,35 @@ export default function Calender() {
             formData.append('eventCost',eventCost);
             formData.append('eventAge',eventAge);
             formData.append('eventRatings',eventRatings.toString());
-            if(displayedImages){
-                displayedImages.forEach((file,index)=>{
-                    formData.append(`displayedImages[${index}]`,file);
-                });
-            }
             formData.append('eventDescription',eventDescription);
             formData.append('host',host);
-            const request=await axios.post("http://localhost:4000/api/user/addEvents",formData);
+            for(let i=0;i<displayedImages.length;i++){
+                formData.append('images',displayedImages[i]);
+            }
+            const request=await axios.post("http://localhost:4000/api/user/addEvents",formData,{
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            });
             const response=request.data;
             if(response.status==200){
                 toast.success(response.message);
+                setShowAddEventBox(false);
+                setEventTitle('');
+                setEventType('');
+                setEventDate('');
+                setEventLocation({district:""});
+                setEventCost('');
+                setEventAge('');
+                setEventRatings(0);
+                setEventDescription('');
+                setDisplayedImages([]);
+                setShowFileInput(true);
             }
         }
         catch(err){
             console.log(err);
         }
-        // console.log(eventTitle,eventDescription,eventType,eventLocation,eventCost,eventDate,eventRatings,eventAge,displayedImages,host);
     }
     return (
         <div className='overall-container'>
@@ -203,19 +216,19 @@ export default function Calender() {
                                                                     {
                                                                         showFileInput &&
                                                                         <div>
-                                                                            <label htmlFor="myfileSingle" className="custom-file-input"><FiUploadCloud className='file-img' /> Add Image</label>
-                                                                            <input type="file" id="myfileSingle" name="myfileSingle" onChange={handleImageChange} multiple />
+                                                                            <label htmlFor="myfileSingle" className="custom-file-input"><FiUploadCloud className='file-img'/> Add Image</label>
+                                                                            <input type="file" id="myfileSingle" name="displayedImages" onChange={handleImageChange} multiple />
                                                                         </div>
                                                                     }
                                                                     {
-                                                                        !displayedImages ? (<></>) : (
+                                                                        displayedImages.length > 0 && displayedImages[0] instanceof File ? (
                                                                             <div className='selected-images-list'>
                                                                                 <div className="img-container">
                                                                                     <img src={URL.createObjectURL(displayedImages[0])} alt="Selected" className='select-img' />
                                                                                     <IoMdClose className="close-icon" onClick={removeImage} size={36}/>
                                                                                 </div>
                                                                             </div>
-                                                                        )
+                                                                        ) : null
                                                                     }
                                                                 </div>
                                                             </div>

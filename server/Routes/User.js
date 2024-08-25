@@ -1,8 +1,18 @@
-const express=require('express')
+const express=require('express');
 const user=require('../Controller/UserController');
-const {isUser}=require('../Middleware/verifyUser')
+const multer=require('multer');
+const path=require('path');
 const UserRoutes=express.Router();
+const storage=multer.diskStorage({
+    destination:function (req,file,cb){
+        cb(null,'../client/src/Assets');
+    },
+    filename: function(req,file,cb){
+        cb(null,file.originalname);
+    },
+});
+const upload=multer({storage:storage});
 
-UserRoutes.post('/addEvents',isUser,user.addEvents);
+UserRoutes.post('/addEvents',(req,res,next)=>{next()},upload.array('images',5),user.addEvents);
 
-module.exports=UserRoutes
+module.exports=UserRoutes;
