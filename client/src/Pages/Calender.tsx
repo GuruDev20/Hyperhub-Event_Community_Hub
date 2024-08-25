@@ -10,6 +10,7 @@ import { IoIosStarOutline, IoIosStar } from "react-icons/io";
 import { FiUploadCloud } from "react-icons/fi";
 import axios from 'axios'
 import {toast} from 'react-hot-toast'
+import { getLocation } from "../Services/GeoLocation";
 const suggestions = [
     'Location', 'Current Location', 'Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 
     'Dindigul', 'Erode', 'Kallakurichi', 'Kanchipuram', 'Kanyakumari', 'Karur', 
@@ -27,13 +28,13 @@ export default function Calender() {
     const [eventTitle, setEventTitle] = useState("");
     const [eventDescription, setEventDescription] = useState("");
     const [eventType, setEventType] = useState("");
-    const [eventLocation, setEventLocation]=useState("");
+    const [eventLocation, setEventLocation]=useState({district:''});
     const [eventCost,setEventCost]=useState("");
     const [eventDate, setEventDate]=useState("");
     const [eventRatings, setEventRatings] = useState<number>(0);
     const [eventAge,setEventAge]=useState("");
     const [showFileInput, setShowFileInput] = useState(true);
-    const [displayedImages, setDisplayedImages] = useState<File[] |null>(null);
+    const [displayedImages, setDisplayedImages] = useState<File[]>([]);
     const [host,setHost]=useState("");
 
     axios.defaults.withCredentials = true;
@@ -54,6 +55,18 @@ export default function Calender() {
         };
         fetchUser();
     },[]);
+
+    useEffect(() => {
+        if(eventLocation.district==="Current Location"){
+            const fetchLocation=async()=>{
+                const loc=await getLocation();
+                if(loc){
+                    setEventLocation({district:loc.district});
+                }
+            };
+            fetchLocation();
+        }
+    }, [eventLocation.district]);
 
     const handlePriceChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         const price=e.target.value;
@@ -112,13 +125,28 @@ export default function Calender() {
     };
 
     const removeImage = () => {
-        setDisplayedImages(null);
+        setDisplayedImages([]);
         setShowFileInput(true);
     };
 
     const handleSubmit=async()=>{
         try{
-            const request=await axios.post("http://localhost:4000/api/user/addEvents",{eventTitle,eventType,eventDate,eventLocation,eventCost,eventAge,eventRatings,displayedImages,eventDescription,host});
+            const formData=new FormData();
+            formData.append('eventTitle',eventTitle);
+            formData.append('eventType',eventType);
+            formData.append('eventDate',eventDate);
+            formData.append('eventLocation',eventLocation.district);
+            formData.append('eventCost',eventCost);
+            formData.append('eventAge',eventAge);
+            formData.append('eventRatings',eventRatings.toString());
+            if(displayedImages){
+                displayedImages.forEach((file,index)=>{
+                    formData.append(`displayedImages[${index}]`,file);
+                });
+            }
+            formData.append('eventDescription',eventDescription);
+            formData.append('host',host);
+            const request=await axios.post("http://localhost:4000/api/user/addEvents",formData);
             const response=request.data;
             if(response.status==200){
                 toast.success(response.message);
@@ -216,7 +244,7 @@ export default function Calender() {
                                                         <div className="event-locations-prices">
                                                             <div className="event-locations">
                                                                 <p className="event-location-name">Location</p>
-                                                                <select name="event-locations" id="event-location" className="location-event" value={eventLocation} onChange={(e)=>setEventLocation(e.target.value)}>
+                                                                <select name="event-locations" id="event-location" className="location-event" value={eventLocation.district} onChange={(e)=>setEventLocation({district:e.target.value})}>
                                                                     {suggestions.map((suggestion, index) => (
                                                                         <option key={index} value={suggestion} className="list-event-location">{suggestion}</option>
                                                                     ))}
