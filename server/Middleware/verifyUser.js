@@ -1,7 +1,7 @@
 const jwt=require('jsonwebtoken')
 const UserModel=require('../Model/UserModel')
-
-const isUser=async(req,res)=>{
+const cookieParser=require('cookie-parser')
+const isUser=async(req,res,next)=>{
     try{
         const token=req.cookies.token;
         if(!token){
@@ -12,7 +12,7 @@ const isUser=async(req,res)=>{
         if(!user){
             return res.status(401).json({message:"User not found"})   
         }
-        req.user=user
+        req.user=user;
         next();
     }
     catch(error){

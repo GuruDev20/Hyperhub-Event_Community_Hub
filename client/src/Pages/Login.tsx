@@ -7,7 +7,6 @@ import { FaXTwitter } from "react-icons/fa6";
 import {toast} from 'react-hot-toast'
 import {Link,useNavigate} from 'react-router-dom'
 import axios from 'axios';
-import Cookies from 'js-cookie'
 interface LoginData {
     email: string;
     password: string;
@@ -25,12 +24,11 @@ export default function Login() {
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();  
         try{
-            const response=await axios.post("http://localhost:4000/api/auth/login",data);
+            const response=await axios.post("http://localhost:4000/api/auth/login",data,{withCredentials:true});
             if(response.status===200){
                 setData({ email: '', password: '' });
                 setEmailValidation({ isValid: true, message: '' });
                 setPasswordValidation({ isValid: true, message: '' });
-                Cookies.set('token', response.data.token, { expires: 7 });
                 toast.success(response.data.message);
                 navigate('/')
             }

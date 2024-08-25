@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../Components/Footer';
@@ -8,6 +8,8 @@ import { GoPlus } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { IoIosStarOutline, IoIosStar } from "react-icons/io";
 import { FiUploadCloud } from "react-icons/fi";
+import axios from 'axios'
+import {toast} from 'react-hot-toast'
 const suggestions = [
     'Location', 'Current Location', 'Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 
     'Dindigul', 'Erode', 'Kallakurichi', 'Kanchipuram', 'Kanyakumari', 'Karur', 
@@ -32,6 +34,27 @@ export default function Calender() {
     const [eventAge,setEventAge]=useState("");
     const [showFileInput, setShowFileInput] = useState(true);
     const [displayedImages, setDisplayedImages] = useState<File[] |null>(null);
+    const [host,setHost]=useState("");
+
+    axios.defaults.withCredentials = true;
+
+    useEffect(()=>{
+        const fetchUser=async()=>{
+            try{
+                const response=await axios.get("http://localhost:4000/api/auth/getUser");
+                if(response.status==200){
+                    setHost(response.data.username);
+                }
+                else{
+                    console.log('Failed to fetch user data:', response.status);
+                }
+            }catch(error){
+                console.log(error);
+            }
+        };
+        fetchUser();
+    },[]);
+
     const handlePriceChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         const price=e.target.value;
         setEventPrice(price);
@@ -88,12 +111,23 @@ export default function Calender() {
         console.log(files);
     };
 
-    const deleteSelectedImages=()=>{
+    const removeImage = () => {
         setDisplayedImages(null);
         setShowFileInput(true);
-    }
-    const handleSubmit=()=>{
-        console.log(eventTitle,eventDescription,eventType,eventLocation,eventCost,eventDate,eventRatings,eventAge);
+    };
+
+    const handleSubmit=async()=>{
+        try{
+            const request=await axios.post("http://localhost:4000/api/user/addEvents",{eventTitle,eventType,eventDate,eventLocation,eventCost,eventAge,eventRatings,displayedImages,eventDescription,host});
+            const response=request.data;
+            if(response.status==200){
+                toast.success(response.message);
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+        // console.log(eventTitle,eventDescription,eventType,eventLocation,eventCost,eventDate,eventRatings,eventAge,displayedImages,host);
     }
     return (
         <div className='overall-container'>
@@ -148,15 +182,12 @@ export default function Calender() {
                                                                     {
                                                                         !displayedImages ? (<></>) : (
                                                                             <div className='selected-images-list'>
-                                                                                <img src={URL.createObjectURL(displayedImages[0])} alt="Selected" className='select-img' />
+                                                                                <div className="img-container">
+                                                                                    <img src={URL.createObjectURL(displayedImages[0])} alt="Selected" className='select-img' />
+                                                                                    <IoMdClose className="close-icon" onClick={removeImage} size={36}/>
+                                                                                </div>
                                                                             </div>
                                                                         )
-                                                                    }
-                                                                    {
-                                                                        displayedImages &&
-                                                                            <div className='delete-button-container' onClick={deleteSelectedImages}>
-                                                                                <button className='delete-button'>Delete</button>
-                                                                            </div>
                                                                     }
                                                                 </div>
                                                             </div>
@@ -269,3 +300,4 @@ export default function Calender() {
         </div>
     );
 }
+

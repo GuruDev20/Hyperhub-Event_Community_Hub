@@ -30,9 +30,10 @@ const login=async(req,res)=>{
         }
         const token=jwt.sign({userId:user._id},process.env.SECRET,{expiresIn:'1h'})
         res.cookie('token',token,{
-            httpOnly:true,
+            httpOnly:false,
             secure:false,
-            maxAge:360000
+            maxAge:3600000,
+            sameSite:'lax'
         })
         res.status(200).json({success:true,message:"Login successfully",user,token})
     }
@@ -62,4 +63,18 @@ const logout=async(req,res)=>{
     }
 }
 
-module.exports={register,login,forgotPassword,resetPassword,verifyOtp,updatePassword,logout}
+const getUser=async(req,res)=>{
+    try{
+        // console.log(req.user);
+        if(req.user){ 
+            res.status(200).json({username:req.user.username});
+        }
+        else{
+            res.status(404).json({message:"User not found"});
+        }
+    }
+    catch(error){
+        res.status(500).json({success:false,message:"Internal server error"});
+    }
+}
+module.exports={register,login,forgotPassword,resetPassword,verifyOtp,updatePassword,logout,getUser}
