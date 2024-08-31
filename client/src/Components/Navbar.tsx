@@ -11,7 +11,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import Cookies from 'js-cookie'
 export default function Navbar() {
-    const logIn = Cookies.get('token');
+    const logIn = Cookies.get('accessToken');
     const navigate=useNavigate();
     const [location, setLocation] = useState({ state: '', country: '' });
     const currentLocation = useLocation();
@@ -30,7 +30,8 @@ export default function Navbar() {
         try{
             const request=await axios.post('http://localhost:4000/api/auth/logout');
             if(request.status===200){
-                Cookies.remove('token');
+                // Cookies.remove('accessToken');
+                // Cookies.remove('refreshToken');
                 toast.success(request.data.message);
                 navigate('/login');
             }

@@ -7,6 +7,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import {toast} from 'react-hot-toast'
 import {Link,useNavigate} from 'react-router-dom'
 import axios from 'axios';
+import useAuth from '../Hooks/useAuth';
 interface LoginData {
     email: string;
     password: string;
@@ -17,6 +18,7 @@ interface Validation{
     message:string
 }
 export default function Login() {
+    const {setAccessToken}=useAuth();
     const navigate=useNavigate();
     const [data, setData] = useState<LoginData>({ email: '', password: '' });
     const [emailValidation, setEmailValidation] = useState<Validation>({ isValid: true, message: '' });
@@ -30,6 +32,7 @@ export default function Login() {
                 setEmailValidation({ isValid: true, message: '' });
                 setPasswordValidation({ isValid: true, message: '' });
                 toast.success(response.data.message);
+                setAccessToken(response.data.accessToken);
                 navigate('/')
             }
         }

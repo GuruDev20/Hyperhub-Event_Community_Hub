@@ -5,6 +5,7 @@ const AuthRoutes=express.Router();
 
 AuthRoutes.post('/register',auth.register);
 AuthRoutes.post('/login',auth.login);
+AuthRoutes.post('/refresh',auth.refreshToken);
 AuthRoutes.post('/logout',auth.logout);
 AuthRoutes.post('/forgot-password',auth.forgotPassword);
 AuthRoutes.post('/reset-password',auth.resetPassword);

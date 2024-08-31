@@ -1,6 +1,7 @@
 const UserModel = require('../Model/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cookieParser=require('cookie-parser')
 const register=async(req,res)=>{
     try{
         const {username,email,password,mobile}=req.body;
@@ -29,18 +30,53 @@ const login=async(req,res)=>{
             return res.status(404).json({success:false,message:"Invalid credentials"});
         }
         const token=jwt.sign({userId:user._id},process.env.SECRET,{expiresIn:'1h'})
-        res.cookie('token',token,{
+        const refreshToken=jwt.sign({userId:user._id},process.env.REFRESH_SECRET,{expiresIn:'7d'})
+        user.refreshToken=refreshToken;
+        await user.save();
+        res.cookie('accessToken',token,{
             httpOnly:false,
             secure:false,
             maxAge:3600000,
             sameSite:'lax'
         })
-        res.status(200).json({success:true,message:"Login successfully",user,token})
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly:false,
+            secure:false,
+            maxAge:604800000,
+            sameSite:'lax'
+        });
+        res.status(200).json({success:true,message:"Login successfully",user,token,refreshToken});
     }
     catch(error){
         res.status(500).json({success:false,message:"Internal server error"});
     }
 }
+
+const refreshToken=async(req,res)=>{
+    try{
+        const refreshToken=req.cookies.refreshToken;
+        if(!refreshToken){
+            return res.status(403).json({success:false,message:"Refresh token required"});
+        }
+        const payload=jwt.verify(refreshToken,process.env.REFRESH_SECRET);
+        const user=await UserModel.findById(payload.userId);
+        if(!user || user.refreshToken!==refreshToken){
+            return res.status(403).json({ success:false,message:"Invalid refresh token"});
+        }
+        const newAccessToken=jwt.sign({userId:user._id},process.env.SECRET,{expiresIn:'1h'});
+        res.cookie('accessToken',newAccessToken,{
+            httpOnly:false,
+            secure:false,
+            maxAge:3600000,
+            sameSite:'lax'
+        });
+        res.status(200).json({success:true,accessToken:newAccessToken});
+    } 
+    catch (error){
+        res.status(500).json({success: false,message:"Internal server error"});
+    }
+};
+
 const forgotPassword=async(req,res)=>{
 
 }
@@ -55,7 +91,16 @@ const updatePassword=async(req,res)=>{
 }
 const logout=async(req,res)=>{
     try{
-        res.clearCookie('token',{path:'/'})
+        const refreshToken=req.cookies.refreshToken;
+        if(refreshToken){
+            const user=await UserModel.findOne({refreshToken:refreshToken});
+            if(user){
+                user.refreshToken=null;
+                await user.save();
+            }
+        }
+        res.clearCookie('refreshToken',{path:'/'});
+        res.clearCookie('accessToken',{path:'/'})
         res.status(200).json({message:"Logout successfully"});
     }
     catch(error){
@@ -77,4 +122,4 @@ const getUser=async(req,res)=>{
         res.status(500).json({success:false,message:"Internal server error"});
     }
 }
-module.exports={register,login,forgotPassword,resetPassword,verifyOtp,updatePassword,logout,getUser}
+module.exports={register,login,forgotPassword,resetPassword,verifyOtp,updatePassword,logout,getUser,refreshToken}
