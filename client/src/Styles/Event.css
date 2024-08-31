@@ -1,6 +1,6 @@
 .event-container{
     background-color: #fbfefb;
-    height: 100vh;
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 25% 75%;
 }
@@ -64,6 +64,7 @@
     flex-direction: row;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin-left: 1em;
+    /* padding-bottom: 2em; */
 }
 .selected-item-container{
     display: flex;
@@ -77,4 +78,7 @@
 }
 .selected-item{
     margin-right: 1em;
+}
+.filtered-result-section{
+    margin-top: 2em;
 }

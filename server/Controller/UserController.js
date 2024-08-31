@@ -12,4 +12,14 @@ const addEvents=async(req,res)=>{
     }
 };
 
-module.exports={addEvents};
+const getEvents=async(req,res)=>{
+    try{
+        const events=await EventModel.find();
+        res.status(200).json({status:200,events});
+    }
+    catch(err){
+        res.status(500).json({success:false,message:'Internal server error'});
+    }
+}
+
+module.exports={addEvents,getEvents};

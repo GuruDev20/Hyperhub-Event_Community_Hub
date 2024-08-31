@@ -14,5 +14,6 @@ const storage=multer.diskStorage({
 const upload=multer({storage:storage});
 
 UserRoutes.post('/addEvents',(req,res,next)=>{next()},upload.array('images',5),user.addEvents);
+UserRoutes.get('/getEvents',user.getEvents);
 
 module.exports=UserRoutes;

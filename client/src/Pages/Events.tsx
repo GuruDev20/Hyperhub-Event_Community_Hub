@@ -4,6 +4,9 @@ import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from 'react-icons/md';
 import Navbar from '../Components/Navbar';
 import { IoClose } from "react-icons/io5";
 import Footer from '../Components/Footer';
+import EventCard from '../Components/EventCard';
+import { getLocation } from "../Services/GeoLocation";
+import axios from 'axios';
 const suggestions = [
     'Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 
     'Dindigul', 'Erode', 'Kallakurichi', 'Kanchipuram', 'Kanyakumari', 'Karur', 
@@ -23,6 +26,19 @@ type SelectedItemsType = {
     ages: string[],
 }
 
+type EventType={
+    _id:string,
+    eventTitle:string,
+    eventType:string,
+    eventDate:string,
+    eventLocation:string,
+    eventCost:string,
+    eventAge:string,
+    eventRatings:string,
+    images:string[],
+    eventDescription:string,
+    host:string,
+}
 const initialSelectedItems: SelectedItemsType = {
     types: [],
     dates: [],
@@ -33,16 +49,64 @@ const initialSelectedItems: SelectedItemsType = {
 };
 
 export default function Events() {
+    const [user,setUser]= useState("");
+    const [events,setEvents]=useState<EventType[]>([]);
     const [showTypeDropdown, setShowTypeDropdown] = useState(false);
     const [showDateDropdown, setShowDateDropdown] = useState(false);
     const [showLocationDropdown, setShowLocationDropdown] = useState(false);
     const [showPriceDropdown, setShowPriceDropdown] = useState(false);
     const [showPopularDropdown, setShowPopularDropdown] = useState(false);
     const [showAgeDropdown, setShowAgeDropdown] = useState(false);
-
     const [selectedItems, setSelectedItems] = useState<SelectedItemsType>(initialSelectedItems);
+    const [currentLocation, setCurrentLocation] = useState({district:""});
+    axios.defaults.withCredentials = true;
 
-        const handleCheckboxChange = (category: keyof SelectedItemsType, value: string) => {
+    useEffect(()=>{
+        const fetchUser=async()=>{
+            try{
+                const response=await axios.get("http://localhost:4000/api/auth/getUser");
+                if(response.status==200){
+                    setUser(response.data.username);
+                }
+                else{
+                    console.log('Failed to fetch user data:', response.status);
+                }
+            }catch(error){
+                console.log(error);
+            }
+        };
+        fetchUser();
+    },[]);
+
+    useEffect(()=>{
+        const fetchEvent=async()=>{
+            try{
+                const response=await axios.get("http://localhost:4000/api/user/getEvents");
+                if(response.status==200){
+                    setEvents(response.data.events);
+                }
+                else{
+                    console.log('Failed to fetch user data:', response.status);
+                }
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+        fetchEvent();
+    },[])
+
+    useEffect(()=>{
+        const fetchLocation=async()=>{
+            const loc=await getLocation();
+            if(loc){
+                setCurrentLocation({district:loc.district});
+            }
+        };
+        fetchLocation();
+    },[]);
+
+    const handleCheckboxChange = (category: keyof SelectedItemsType, value: string) => {
         setSelectedItems(prevSelectedItems => {
             const updatedCategoryItems = prevSelectedItems[category].includes(value)
                 ? prevSelectedItems[category].filter(item => item !== value)
@@ -55,7 +119,7 @@ export default function Events() {
         });
     };
 
-        const handleRemoveItem = (category: keyof SelectedItemsType, value: string) => {
+    const handleRemoveItem = (category: keyof SelectedItemsType, value: string) => {
         setSelectedItems(prevSelectedItems => {
             const updatedCategoryItems = prevSelectedItems[category].filter(item => item !== value);
             return {
@@ -65,13 +129,9 @@ export default function Events() {
         });
     };
 
-        const isChecked = (category: keyof SelectedItemsType, value: string) => {
+    const isChecked = (category: keyof SelectedItemsType, value: string) => {
         return selectedItems[category].includes(value);
     };
-
-    useEffect(() => {
-        console.log('Selected Items:', selectedItems);
-    }, [selectedItems]);
 
     const renderSelectedItems = () => {
         return Object.keys(selectedItems).map(category => (
@@ -80,11 +140,112 @@ export default function Events() {
                     <div className="selected-item">
                         {item}
                     </div>
-                                        <IoClose size={18} onClick={() => handleRemoveItem(category as keyof SelectedItemsType, item)} />
+                    <IoClose size={18} onClick={() => handleRemoveItem(category as keyof SelectedItemsType, item)} />
                 </div>
             ))
         ));
     };
+    
+    const filterEvents=()=>{
+        return events.filter(event =>{
+            if(selectedItems.types.length>0 && !selectedItems.types.includes(event.eventType)){
+                return false;
+            }
+            if (selectedItems.locations.length>0){
+                if(selectedItems.locations.includes('Same As Your Location') && currentLocation){
+                    if(event.eventLocation!==currentLocation.district){
+                        return false;
+                    }
+                } 
+                else if(!selectedItems.locations.includes(event.eventLocation)){
+                    return false;
+                }
+            }
+            if (selectedItems.ages.length > 0 && !selectedItems.ages.includes(event.eventAge)) {
+                return false;
+            }
+            if(selectedItems.ages.length>0 && !selectedItems.ages.includes(event.eventAge)){
+                return false;
+            }
+            if(selectedItems.dates.length>0){
+                const today=new Date();
+                const tomorrow=new Date(today);
+                tomorrow.setDate(today.getDate()+1);
+                const nextWeek=new Date(today);
+                nextWeek.setDate(today.getDate()+7);
+                const eventDate=new Date(event.eventDate);
+                const nextWeekEnd=new Date(nextWeek);
+                nextWeekEnd.setDate(nextWeek.getDate()+7);
+                const dayOfWeek=eventDate.getDay();
+                const dateFilterResults=selectedItems.dates.map(dateFilter=>{
+                    switch(dateFilter){
+                        case "Today":
+                            return eventDate.toDateString()===today.toDateString();
+                        case "Tomorrow":
+                            return eventDate.toDateString()===tomorrow.toDateString();
+                        case "This Week":
+                            return eventDate>=today && eventDate<=nextWeek;
+                        case "This Weekend":``
+                            return dayOfWeek===6 ||dayOfWeek===0;
+                        case "Next Week":
+                            return eventDate>=nextWeek && eventDate<=nextWeekEnd;
+                        default:
+                            return true;
+                    }
+                });
+                if (!dateFilterResults.some(result=>result)) return false;
+            }
+            if(selectedItems.prices.length>0){
+                const eventCost=event.eventCost;
+                const costFilterResults=selectedItems.prices.map(costFilter=>{
+                    switch(costFilter){
+                        case "Free events":
+                            return eventCost==="Free";
+                        case "Paid events":
+                            return eventCost!=="Free";
+                        case "₹0-₹50":
+                            return eventCost!=="Free" && parseFloat(eventCost.replace(/[^\d.]/g,''))>=0 && parseFloat(eventCost.replace(/[^\d.]/g,''))<= 50;
+                        case "₹50-₹100":
+                            return eventCost!=="Free" && parseFloat(eventCost.replace(/[^\d.]/g,''))>50 && parseFloat(eventCost.replace(/[^\d.]/g,''))<=100;
+                        case "₹100-₹200":
+                            return eventCost!=="Free" && parseFloat(eventCost.replace(/[^\d.]/g,''))>100 && parseFloat(eventCost.replace(/[^\d.]/g,''))<=200;
+                        case "More than 200":
+                            return eventCost!=="Free" && parseFloat(eventCost.replace(/[^\d.]/g,''))>200;
+                        default:
+                            return true;
+                    }
+                });
+
+                if (!costFilterResults.some(result => result)) return false;
+            }
+            if(selectedItems.popular.length>0){
+                const eventRatings=parseInt(event.eventRatings,10)
+                const ratingsFilterResults=selectedItems.popular.map(ratingFilter=>{
+                    switch(ratingFilter){
+                        case "Most Popular":
+                            return eventRatings<=4;
+                        case "Highly Rated":
+                            return eventRatings===5;
+                        default:
+                            return true;
+                    }
+                });
+                if(!ratingsFilterResults.some(result=>result)) return false;
+            }
+            return true;
+        });
+    };
+
+    const renderEvents=()=>{
+        const filteredEvents=filterEvents();
+        return filteredEvents.map((event)=>{
+            return(
+                <div key={event._id}>
+                    <EventCard event={event} user={{user}}/>
+                </div>
+            );
+        });
+    }
 
     return (
         <>
@@ -260,7 +421,9 @@ export default function Events() {
                     <div className="filtered-result">
                         {renderSelectedItems()}
                     </div>
-                    <div className="filtered-result-section"></div>
+                    <div className="filtered-result-section">
+                        {renderEvents()}
+                    </div>
                 </div>
             </div>
             <div><Footer/></div>

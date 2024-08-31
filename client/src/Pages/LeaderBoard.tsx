@@ -34,8 +34,8 @@ export default function LeaderBoard() {
                         <div className="leader-stats">
                         <p className="leader-title">LeaderBoard</p>
                         <BarChart width={500} height={300} data={performers} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
-                            <XAxis dataKey="name" />
-                            <YAxis />
+                            <XAxis dataKey="name"/>
+                            <YAxis dataKey="score"/>
                             <Bar dataKey="score">
                                 {performers.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.name === 'Dev(You)' ? '#ffc4d1' : '#6096ba'} />
