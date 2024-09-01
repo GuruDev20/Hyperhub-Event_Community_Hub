@@ -8,7 +8,7 @@ AuthRoutes.post('/login',auth.login);
 AuthRoutes.post('/refresh',auth.refreshToken);
 AuthRoutes.post('/logout',auth.logout);
 AuthRoutes.post('/forgot-password',auth.forgotPassword);
-AuthRoutes.post('/reset-password',auth.resetPassword);
+AuthRoutes.post('/reset-password/:id/:token',auth.resetPassword);
 AuthRoutes.post('/verify-otp',auth.verifyOtp);
 AuthRoutes.post('/update-password',auth.updatePassword);
 AuthRoutes.get('/getUser',isUser,auth.getUser);

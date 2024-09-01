@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { toast } from 'react-hot-toast'
 import axios from 'axios';
 import { SiHubspot } from 'react-icons/si';
-import '../Styles/forget-password.css'
+import '../Styles/ForgetPassword.css'
 import { useNavigate } from 'react-router-dom';
 interface Validation{
     isValid:boolean,

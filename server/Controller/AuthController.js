@@ -82,7 +82,6 @@ const refreshToken=async(req,res)=>{
 const forgotPassword=async(req,res)=>{
     try{
         const {email}=req.body;
-        console.log(email);
         const user=await UserModel.findOne({email:email});
         if(!user){
             return res.status(404).json({success:false,message:"User not found"});
@@ -115,7 +114,25 @@ const forgotPassword=async(req,res)=>{
     }
 }
 const resetPassword=async(req,res)=>{
-
+    try{
+        const {id,token}=req.params;
+        const {password}=req.body;
+        const user=await UserModel.findById(id);
+        if(!user){
+            return res.status(404).json({success:false,message:"User not found"});
+        }
+        const validToken=await jwt.verify(token,process.env.SECRET);
+        if(!validToken){
+            return res.status(404).json({success:false,message:"Invalid token"});
+        }
+        const hashPassword=await bcrypt.hashSync(password,10);
+        user.password=hashPassword;
+        await user.save();
+        res.status(200).json({success:true,message:"Password reset successfully"});
+    }
+    catch(error){
+        res.status(500).json({success:false,message:"Internal server error"});
+    }
 }
 const verifyOtp=async(req,res)=>{
 
