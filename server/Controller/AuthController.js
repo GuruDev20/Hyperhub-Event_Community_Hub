@@ -94,11 +94,16 @@ const forgotPassword=async(req,res)=>{
               pass:process.env.EMAIL_PASS
             }
         });  
+        const resetUrl=`http://localhost:5173/reset-password/${user._id}/${token}`;
         var mailOptions={
             from:process.env.EMAIL_USER,
             to:email,
             subject:'Reset Password Link',
-            text:`http://localhost:5173/reset-password/${user._id}/${token}`
+            html: `
+                <h2>Reset your password</h2>
+                <p>Click the link below to reset your password:</p>
+                <a href="${resetUrl}">${resetUrl}</a>
+            `
         };  
         transporter.sendMail(mailOptions,function(error,info){
             if(error){
