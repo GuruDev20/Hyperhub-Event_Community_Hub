@@ -7,8 +7,8 @@ const useAuth=()=>{
 
     const refreshToken=async()=>{
         try{
-            const response=await axios.get("http://localhost:4000/api/auth/refresh",{},{withCredentials:true});
-            setAccessToken(response.data.accessToken);
+            const response=await axios.get("http://localhost:4000/api/auth/refresh",{withCredentials:true});
+            setAccessToken(response.data.accessToken)
         }   
         catch(error){
             console.log(error);

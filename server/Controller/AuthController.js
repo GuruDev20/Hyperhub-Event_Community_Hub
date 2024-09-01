@@ -2,6 +2,8 @@ const UserModel = require('../Model/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser=require('cookie-parser')
+const nodemailer=require('nodemailer');
+
 const register=async(req,res)=>{
     try{
         const {username,email,password,mobile}=req.body;
@@ -78,7 +80,39 @@ const refreshToken=async(req,res)=>{
 };
 
 const forgotPassword=async(req,res)=>{
-
+    try{
+        const {email}=req.body;
+        console.log(email);
+        const user=await UserModel.findOne({email:email});
+        if(!user){
+            return res.status(404).json({success:false,message:"User not found"});
+        }
+        const token=jwt.sign({id:user._id},process.env.SECRET,{expiresIn:"1h"})
+        var transporter=nodemailer.createTransport({
+            service:'gmail',
+            auth:{
+              user:process.env.EMAIL_USER,
+              pass:process.env.EMAIL_PASS
+            }
+        });  
+        var mailOptions={
+            from:process.env.EMAIL_USER,
+            to:email,
+            subject:'Reset Password Link',
+            text:`http://localhost:5173/reset-password/${user._id}/${token}`
+        };  
+        transporter.sendMail(mailOptions,function(error,info){
+            if(error){
+                console.log(error);
+            } 
+            else{
+                res.status(200).json({success:true,message:"Password reset link sent to your email"});
+            }
+        });
+    }
+    catch(error){
+        res.status(500).json({success:false,message:"Internal server error"});
+    }
 }
 const resetPassword=async(req,res)=>{
 
