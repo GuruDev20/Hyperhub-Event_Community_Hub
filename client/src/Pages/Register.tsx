@@ -4,6 +4,9 @@ import {Link,useNavigate} from 'react-router-dom';
 import { SiHubspot } from 'react-icons/si';
 import {toast} from 'react-hot-toast'
 import axios from 'axios'
+import { FaGoogle } from "react-icons/fa";
+import { MdFacebook } from "react-icons/md";
+import { FaXTwitter } from "react-icons/fa6";
 interface RegisterData{
     username:string;
     email:string;
@@ -84,6 +87,21 @@ export default function Register() {
         setMobileValidation({ isValid, message });
     };
 
+    const handleRegister=async(value:string)=>{
+        try{
+            const response=await axios.get(`http://localhost:4000/api/auth/${value}`);
+            if(response.status===200){
+                toast.success(response.data.message);
+                navigate('/login');
+            }
+            else{
+                toast.error(response.data.message);
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
     return (
         <>
             <div className="register-container">
@@ -116,6 +134,11 @@ export default function Register() {
                         </div>
                         <button type="submit" className="register-btn">Register</button>
                         <div className="already-account">Already have an account? <Link to="/login" className="link-login"><span className="login-toggle">Login</span></Link></div>
+                        <div className="register-opt">
+                            <div className="google"><FaGoogle size={24} color='#ef233c' onClick={()=>handleRegister('google')}/></div>
+                            <div className="facebook"><MdFacebook size={34} color='#4267B2' onClick={()=>handleRegister('facebook')}/></div>
+                            <div className="twitter"><FaXTwitter size={24} onClick={()=>handleRegister('twitter')}/></div>
+                        </div>
                     </form>
                 </div>
             </div>

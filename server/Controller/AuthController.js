@@ -139,9 +139,7 @@ const resetPassword=async(req,res)=>{
         res.status(500).json({success:false,message:"Internal server error"});
     }
 }
-const verifyOtp=async(req,res)=>{
 
-}
 const updatePassword=async(req,res)=>{
 
 }
@@ -178,4 +176,4 @@ const getUser=async(req,res)=>{
         res.status(500).json({success:false,message:"Internal server error"});
     }
 }
-module.exports={register,login,forgotPassword,resetPassword,verifyOtp,updatePassword,logout,getUser,refreshToken}
+module.exports={register,login,forgotPassword,resetPassword,updatePassword,logout,getUser,refreshToken}

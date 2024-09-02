@@ -4,7 +4,6 @@ const cookieParser=require('cookie-parser')
 const isUser=async(req,res,next)=>{
     try{
         const token=req.cookies.accessToken;
-        console.log(token);
         if(!token){
             return res.status(401).json({message:"'UnAuthorized:No Token Provided'"})
         }

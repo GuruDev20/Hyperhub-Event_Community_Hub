@@ -7,7 +7,7 @@
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-    height: 53vh;
+    height: 58vh;
     display:flex;
     flex-direction: column;
     cursor: pointer;
@@ -123,4 +123,13 @@ label{
 }
 .register-logo{
     margin-right: 0.5em;
+}
+.register-opt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 10em;
+    margin-top: 1.5em;
+    margin-left: 13.5em;
 }
